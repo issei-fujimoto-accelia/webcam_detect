@@ -22,7 +22,7 @@ from train_as_torch import train_as_torch, Detr
 _CLASS_NAMES = ["turnip"]
 DATASET = "./dataset/d.json"
 MODEL_OUTPUT="./model"
-MAX_STEP=20
+MAX_STEP=1000
 BASE_MODEL="hustvl/yolos-small"
     
 def load_raw_dataset(ds_path):
@@ -123,7 +123,7 @@ def main():
     train_as_torch(model,
                    prepared_ds["train"],
                    prepared_ds["test"],
-                   max_step=MAX_STEP,
+                   max_steps=MAX_STEP,
                    model_out_dir=MODEL_OUTPUT
                    )
     
