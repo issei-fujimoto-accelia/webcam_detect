@@ -71,10 +71,13 @@ def collate_fn(batch):
     }
 
 
-def train_as_torch(model, train_dataset, val_dataset, max_step=10, model_out_dir="./models"):                           
+def train_as_torch(model, train_dataset, val_dataset, max_step=10, model_out_dir="./models"):
+    device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+    accelerator = 'gpu' if torch.cuda.is_available() else 'cpu'
+    print("use: {}".format(accelerator))
     # trainer = Trainer(gpus=0, max_steps=2000, gradient_clip_val=0.1, accumulate_grad_batches=4)
     trainer = Trainer(
-        gpus=0,
+        accelerator=accelerator,
         max_steps=10,
         gradient_clip_val=0.1,
         accumulate_grad_batches=4,
