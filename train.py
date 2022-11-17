@@ -108,7 +108,7 @@ def train(feature_extractor, model, prepared_ds):
 
 
 def main():
-    steps = sys.argv[-1]
+    steps = int(sys.argv[-1])
     
     model_name = BASE_MODEL    
     feature_extractor = YolosFeatureExtractor.from_pretrained(model_name)
