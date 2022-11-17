@@ -15,7 +15,6 @@ def run_webcam(cap: cv2.VideoCapture, detector: Detector):
     
     while(True):
         ret, frame = cap.read()
-
         if(cnt % 5):
             items = detector.detect(frame)
             

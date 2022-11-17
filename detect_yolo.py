@@ -14,7 +14,6 @@ class YoloDetector(Detector):
         # self._feature_extractor = AutoFeatureExtractor.from_pretrained("hustvl/yolos-tiny")
         # self._model = AutoModelForObjectDetection.from_pretrained("hustvl/yolos-tiny")
 
-
         self._th = th
         self._verbose = verbose
         

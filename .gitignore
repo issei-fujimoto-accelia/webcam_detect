@@ -1,2 +1,8 @@
 __pycache__
 .venv
+images/*
+dataset/*.json
+dataset/*.csv
+dataset/label/*
+dataset/raw/*
+models/*
