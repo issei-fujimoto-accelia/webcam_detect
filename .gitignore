@@ -1,8 +1,14 @@
 __pycache__
 .venv
 images/*
+
 dataset/*.json
 dataset/*.csv
-dataset/label/*
-dataset/raw/*
+
+!dataset/label/.gitkeep
+dataset/label/*.txt
+
+!dataset/raw/.gitkeep
+dataset/raw/*.png
+dataset/raw/*.jpg
 models/*
