@@ -16,6 +16,7 @@ from datasets import load_metric, load_dataset
 from datasets import Features, Value, ClassLabel, Image as DatasetImage
 import os
 from PIL import Image
+import sys
 
 from train_as_torch import train_as_torch, Detr
 
