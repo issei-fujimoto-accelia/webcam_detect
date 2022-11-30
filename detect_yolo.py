@@ -7,17 +7,23 @@ from detect_info import DetectInfo
 from detector import Detector
 
 class YoloDetector(Detector):
-    def __init__(self, th = 0.9, verbose=False):
+    """
+    th: detectする閾値 (default 0.8)
+    resize_rate: detect時の、入力画像をresizeする比率 (default 0.5)
+    """
+    def __init__(self, th = 0.8, resize_rate = 1.0, verbose=False):
         self._feature_extractor = YolosFeatureExtractor.from_pretrained('hustvl/yolos-small')
-        self._model = YolosForObjectDetection.from_pretrained('hustvl/yolos-small')
+        self._model = YolosForObjectDetection.from_pretrained('./models/20221117/')
 
         # self._feature_extractor = AutoFeatureExtractor.from_pretrained("hustvl/yolos-tiny")
         # self._model = AutoModelForObjectDetection.from_pretrained("hustvl/yolos-tiny")
 
         self._th = th
         self._verbose = verbose
+        self._resize_rate = resize_rate
         
     def detect(self, frame: np.ndarray) -> list[DetectInfo]:
+        frame = cv2.resize(frame, dsize=None, fx=self._resize_rate, fy=self._resize_rate)
         image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         # model_input = processing.normalized_images(model_input, config)
 
@@ -39,10 +45,10 @@ class YoloDetector(Detector):
                 if(self._verbose):
                     print("Detected {} with confidence {} at location {}"
                           .format(obj_label,score, box))
-
-                d = DetectInfo(obj_label, tuple(box), score)
-                detect_infos.append(d)
-                
+                box = [ v / self._resize_rate for v in box]
+                if(obj_label == "turnip"):
+                    d = DetectInfo(obj_label, tuple(box), score)
+                    detect_infos.append(d)                
         return detect_infos
         
     
