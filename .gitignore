@@ -7,8 +7,13 @@ dataset/*.csv
 
 !dataset/label/.gitkeep
 dataset/label/*.txt
+dataset/label_cam/*
+dataset/label_net/*
 
 !dataset/raw/.gitkeep
 dataset/raw/*.png
 dataset/raw/*.jpg
+dataset/raw_cam/*.jpg
+dataset/raw_net/*.jpg
+
 models/*

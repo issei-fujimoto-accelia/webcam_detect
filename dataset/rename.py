@@ -20,6 +20,8 @@ if len(sys.argv) != 3:
 
 start_num = int(sys.argv[-2])
 target_dir = sys.argv[-1]
+# prefix = "fujimoto"
+prefix = "prefix"
 
 files = Path(target_dir).glob("*")
 for i,f in enumerate(files):
@@ -30,7 +32,7 @@ print("-----")
 
 files = Path(target_dir).glob("*")
 for i,f in enumerate(files):
-    t = Path(f.parent)/Path("{}.jpg".format(str(i+start_num+1).rjust(6, '0')))
+    t = Path(f.parent)/Path("{}_{}.jpg".format(prefix, str(i+start_num+1).rjust(6, '0')))
     print("{} to {}".format(f, t))
     os.rename(f, t) 
     

@@ -46,6 +46,11 @@ https://drive.google.com/drive/u/1/folders/18Gj-TAKg707IyJVUQ0hA6RyD_9XVc8Aq
 保存済みモデルを使う場合、このweightをダウンロードしてきて`./models/`以下など任意の位置に配置してください。
 
 ### dataset
+`convert_dataset.py`  
+yolo用のデータセットをyolosで使えるように変換します  
+`python convert_dataset.py -o [output json file] -l [label dir]`  
+
+
 `crawler.py`  
 蕪の画像を集めてくる.  
 保存dirとか取ってくる画像の数を変更するには`name("蕪", "kabu", 30)`を変更する  

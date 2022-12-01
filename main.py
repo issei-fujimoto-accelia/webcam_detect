@@ -138,6 +138,8 @@ def test_webcam():
             break
         
 if __name__ == "__main__":
+    # test_webcam()
+    
     cap = cv2.VideoCapture(0)
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, WIDTH)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, HEIGHT)
