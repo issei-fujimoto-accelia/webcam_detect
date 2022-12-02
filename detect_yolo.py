@@ -6,14 +6,16 @@ from transformers import YolosFeatureExtractor, YolosForObjectDetection,  AutoFe
 from detect_info import DetectInfo
 from detector import Detector
 
+default_model = 'hustvl/yolos-small'
+
 class YoloDetector(Detector):
     """
     th: detectする閾値 (default 0.8)
     resize_rate: detect時の、入力画像をresizeする比率 (default 0.5)
     """
-    def __init__(self, th = 0.8, resize_rate = 1.0, verbose=False):
-        self._feature_extractor = YolosFeatureExtractor.from_pretrained('hustvl/yolos-small')
-        self._model = YolosForObjectDetection.from_pretrained('./models/20221117/')
+    def __init__(self, model = default_model, th = 0.8, resize_rate = 1.0, verbose=False):
+        self._feature_extractor = YolosFeatureExtractor.from_pretrained(default_model)
+        self._model = YolosForObjectDetection.from_pretrained(model)
 
         # self._feature_extractor = AutoFeatureExtractor.from_pretrained("hustvl/yolos-tiny")
         # self._model = AutoModelForObjectDetection.from_pretrained("hustvl/yolos-tiny")
