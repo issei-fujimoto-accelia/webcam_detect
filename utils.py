@@ -6,8 +6,14 @@ from rembg import remove
 
 from detect_info import DetectInfo
 
-font = ImageFont.truetype('Arial.ttf', 20)
-arrow_font = ImageFont.truetype('Arial.ttf', 50)
+# font = ImageFont.truetype('Arial.ttf', 20)
+# arrow_font = ImageFont.truetype('Arial.ttf', 50)
+
+# font = ImageFont.truetype('Humor-Sans.ttf', 20)
+# arrow_font = ImageFont.truetype('Humor-Sans.ttf', 50)
+
+font = None
+arrow_font = None
 
 # for pil
 def draw(img: PILImage, coord: tuple[int], label: str, has_left: bool, has_right: bool) -> PILImage:
@@ -47,7 +53,7 @@ def draw(img: PILImage, coord: tuple[int], label: str, has_left: bool, has_right
 
 def draw_to_cv2(img: np.ndarray, coord: tuple[int], label: str, has_left: bool, has_right: bool) -> np.ndarray:
     color=(0, 0, 255)
-    # color=(0, 0, 255)
+    # color=(255, 0, 0) #red
     font = cv2.FONT_HERSHEY_SIMPLEX
     x1, y1, x2, y2 = coord
     lu_x, lu_y, rb_x, rb_y = coord
