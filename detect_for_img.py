@@ -1,14 +1,23 @@
 from PIL import Image, ImageDraw, ImageFont
 import numpy as np
 import cv2
+import argparse
 
 from utils import draw_to_cv2, cal_size, set_arrow, img_to_nparr, crop, cal_size_using_bg, nms, nparr_to_img
 from detect_yolo import YoloDetector
 
 def main():
-    # image = Image.open("./images/kabu3.jpeg")
-    image = Image.open("./images/kabu_webcam.png")
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-i', '--image', help="input image for prediction", required=True)
+    args = parser.parse_args() 
 
+    input_img = args.image
+    # image = Image.open("./images/kabu3.jpeg")
+    # image = Image.open("./images/kabu_webcam.png")
+    # image = Image.open("./dataset/raw_cam/fujimoto_000024.jpg")
+    # image = Image.open("./images/IMG_0635.jpg")
+    image = Image.open(input_img)
+    
     detector = YoloDetector(th = 0.8, resize_rate=0.5, verbose=True)
     image = img_to_nparr(image)
     items = detector.detect(image)
@@ -28,8 +37,8 @@ def main():
         print("size", size, size2)
         item.set_size(size)
         
-    if len(items) != 0:
-        items = set_arrow(items)
+    # if len(items) != 0:
+    #     items = set_arrow(items)
 
 
     print("draw")
