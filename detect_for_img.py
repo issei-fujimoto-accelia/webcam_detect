@@ -2,6 +2,7 @@ from PIL import Image, ImageDraw, ImageFont
 import numpy as np
 import cv2
 import argparse
+import random
 
 from utils import draw_to_cv2, cal_size, set_arrow, img_to_nparr, crop, cal_size_using_bg, nms, nparr_to_img
 from detect_yolo import YoloDetector
@@ -48,7 +49,10 @@ def main():
         label = "{}, score:{}, size: {}".format(item.label, item.score, item.size)
         image = draw_to_cv2(image, item.box, label, item.left_arrow, item.right_arrow)
     image = nparr_to_img(image)
-    image.show()
+    save_file = "./tmp_{}.jpg".format(random.randint(0, 1000))
+    image.save(save_file)
+    print("saved image...", save_file)    
+    # image.show()
 
 
 if __name__ == "__main__":
