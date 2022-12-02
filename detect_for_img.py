@@ -9,16 +9,18 @@ from detect_yolo import YoloDetector
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--image', help="input image for prediction", required=True)
+    parser.add_argument('-m', '--model', help="model")
     args = parser.parse_args() 
 
     input_img = args.image
+    model = args.model
     # image = Image.open("./images/kabu3.jpeg")
     # image = Image.open("./images/kabu_webcam.png")
     # image = Image.open("./dataset/raw_cam/fujimoto_000024.jpg")
     # image = Image.open("./images/IMG_0635.jpg")
     image = Image.open(input_img)
     
-    detector = YoloDetector(th = 0.8, resize_rate=0.5, verbose=True)
+    detector = YoloDetector(model = model, th = 0.8, resize_rate=0.5, verbose=True)
     image = img_to_nparr(image)
     items = detector.detect(image)
     items = nms(items, 0.7)
