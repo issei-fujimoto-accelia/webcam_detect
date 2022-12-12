@@ -9,14 +9,15 @@ mac: ffmpeg -f avfoundation -list_devices true -i ""
 
 
 
-import tensorflow as tf
 import numpy as np
 import cv2
 import time
 import os
-
 import queue
 import numpy as np
+from concurrent import futures
+import queue
+import argparse
 
 from detector import Detector
 from detect_dert import DetrDetector
@@ -24,9 +25,6 @@ from detect_yolo import YoloDetector
 from detect_info import DetectInfo
 from utils import draw_to_cv2, cal_size, set_arrow, crop, nparr_to_img, cal_size_using_bg, nms
 
-from concurrent import futures
-
-import queue
 
 WIDTH=1280
 HEIGHT=720
@@ -127,8 +125,8 @@ def run_webcam(cap: cv2.VideoCapture, detector: Detector):
     # When everything done, release the capture
 
 
-def test_webcam():
-    cap = cv2.VideoCapture(0)
+def test_webcam(cam_idx=0):
+    cap = cv2.VideoCapture(cam_idx)
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, WIDTH)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, HEIGHT)
     while(True):
@@ -138,15 +136,28 @@ def test_webcam():
             break
         
 if __name__ == "__main__":
-    # test_webcam()
-    
-    cap = cv2.VideoCapture(0)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-t', '--test', help="for web cam test", action='store_true')
+    parser.add_argument('-m', '--model', help="load model")
+    parser.add_argument('-i', '--index', help="cam index", default=0)
+    args = parser.parse_args()
+
+    if args.test:        
+        test_webcam(args.index)
+        sys.exit(0)
+        
+    cam_idx = args.index
+    cap = cv2.VideoCapture(cam_idx)
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, WIDTH)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, HEIGHT)
     cap.set(cv2.CAP_PROP_FPS, FPS)
 
     # detector = DetrDetector()
-    detector = YoloDetector(th = 0.8, resize_rate=0.5, verbose=True)
+    detector = YoloDetector(
+        model = args.model,
+        th = 0.8,
+        resize_rate=0.5,
+        verbose=True)
     
     # run_webcam(cap, detector)
     async_run_webcam(cap, detector)
