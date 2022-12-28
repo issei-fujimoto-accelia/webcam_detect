@@ -4,6 +4,7 @@ images/*
 
 dataset/*.json
 dataset/*.csv
+dataset/raw_merged
 
 !dataset/label/.gitkeep
 dataset/label/*.txt

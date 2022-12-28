@@ -105,6 +105,8 @@ def cal_size_using_bg(img: np.ndarray):
     _img = np.copy(img)
     _img = remove(_img)
     _size = np.count_nonzero(_img != 0)
+    # _tmp = PILImage.fromarray(_img)
+    # _tmp.show()
     return _size
 
 
@@ -160,11 +162,15 @@ def set_arrow(items: list[DetectInfo]):
     return items
 
 
+    
+    
+
 def crop(img: np.ndarray, lu_x: int, lu_y:int, rb_x:int, rb_y:int):
     _img = np.copy(img)
     return _img[lu_y:rb_y, lu_x:rb_x, :]
 
 def iou(a: tuple, b: tuple) -> float:
+    # https://ohke.hateblo.jp/entry/2020/06/20/230000
     a_x1, a_y1, a_x2, a_y2 = a
     b_x1, b_y1, b_x2, b_y2 = b
     
@@ -183,6 +189,7 @@ def iou(a: tuple, b: tuple) -> float:
 
 
 def nms(items: list[DetectInfo], iou_threshold: float) -> list:
+    # https://ohke.hateblo.jp/entry/2020/06/20/230000
     new_items = []
     scores = [v.score for v in items]
     
@@ -206,3 +213,70 @@ def nms(items: list[DetectInfo], iou_threshold: float) -> list:
         new_items.append(new_item)
     return new_items
   
+
+
+class ArrangementArrow():
+    def __init__(self, display_width: int, display_height: int):
+        self.__font = cv2.FONT_HERSHEY_SIMPLEX
+        self.__color_red=(255, 0, 0)
+        self.__color_blue=(0, 0, 255)
+
+        unit = int(display_width/3)
+        y = int(display_height/3)
+        self.__arrow = {
+            "small": {
+                "pt1": (int(unit/2), y),
+                "pt2": (int(unit/2), 30),
+                "current": False
+            },
+            "middle": {
+                "pt1": (int(3/2*unit), y),
+                "pt2": (int(3/2*unit), 30),
+                "current": False
+            },
+            "large": {
+                "pt1": (int(5/2*unit), y),
+                "pt2": (int(5/2*unit), 30),
+                "current": False  
+            }
+        }
+        # self.__text = "here"
+        self.__SMALL = 100000
+        self.__MIDDLE = 150000
+
+    def set_arrow(self, frame: np.ndarray, item: DetectInfo):
+        if item.size < self.__SMALL:
+            self.__arrow["small"]["current"] = True
+            
+        if self.__SMALL <= item.size < self.__MIDDLE:
+            self.__arrow["middle"]["current"] = True
+            
+        if self.__MIDDLE <= item.size:
+            self.__arrow["large"]["current"] = True
+        
+        for key in self.__arrow:
+            color =  self.__color_red if self.__arrow[key]["current"] else self.__color_blue
+            cv2.arrowedLine(frame,
+                            pt1=self.__arrow[key]["pt1"],
+                            pt2=self.__arrow[key]["pt2"],
+                            color=color,
+                            thickness=20,
+                            shift=0,
+                            tipLength=0.6
+                          )
+
+            # cv2.putText(frame,
+            #             text=self.__text,
+            #             org=self.__arrow[key]["org"],
+            #             fontFace=self.__font,
+            #             color=color,
+            #             thickness=2,
+            #             fontScale=10,
+            #             lineType=cv2.LINE_AA)
+        
+  
+    
+  
+    
+    
+

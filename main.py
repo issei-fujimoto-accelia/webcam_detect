@@ -29,6 +29,10 @@ from utils import draw_to_cv2, cal_size, set_arrow, crop, nparr_to_img, cal_size
 WIDTH=1280
 HEIGHT=720
 
+WIDTH=1920
+WIDTH=1080
+
+
 FPS=1
 WINDOW_SIZE_RATE=1.0
 
@@ -139,7 +143,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('-t', '--test', help="for web cam test", action='store_true')
     parser.add_argument('-m', '--model', help="load model")
-    parser.add_argument('-i', '--index', help="cam index", default=0)
+    parser.add_argument('-i', '--index', help="cam index", type=int, default=0)
     args = parser.parse_args()
 
     if args.test:        
@@ -150,6 +154,7 @@ if __name__ == "__main__":
     cap = cv2.VideoCapture(cam_idx)
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, WIDTH)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, HEIGHT)
+    cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'))
     cap.set(cv2.CAP_PROP_FPS, FPS)
 
     # detector = DetrDetector()
