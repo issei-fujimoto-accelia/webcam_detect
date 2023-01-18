@@ -30,16 +30,14 @@ WIDTH=1280
 HEIGHT=720
 
 WIDTH=1920
-WIDTH=1080
-
+HEIGHT=1080
 
 FPS=1
 WINDOW_SIZE_RATE=1.0
 
-
 ## windows settings
 WIDTH=660
-WIDTH=360
+HEIGHT=360
 WINDOW_SIZE_RATE=3.0
 FPS=1
 
@@ -79,12 +77,11 @@ def async_run_webcam(cap: cv2.VideoCapture, detector: Detector):
                 item.set_size(size)       
             q.get()
 
-        if len(items) > 1:
+        if len(items) > 0:
             # set_arrow(items)
             for v in items:
-                arrangement.set_arrow(frame, items)
+                arrangement.set_arrow(frame, v)
             
-        set_arrow(items)
         for item in items:
             label = "size:{}".format(item.size)
             frame = draw_to_cv2(frame, item.box, label, item.left_arrow, item.right_arrow)
@@ -93,6 +90,7 @@ def async_run_webcam(cap: cv2.VideoCapture, detector: Detector):
         if(draw_cnt > 50):
             items = []
             draw_cnt = 0
+            arrangement.clean_arrow()
             
         if(frame is not None):
             frame = cv2.resize(frame, dsize=None, fx=WINDOW_SIZE_RATE, fy=WINDOW_SIZE_RATE)

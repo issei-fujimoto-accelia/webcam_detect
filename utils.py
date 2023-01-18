@@ -102,9 +102,13 @@ def cal_size(img: np.ndarray):
     return obj_size
 
 def cal_size_using_bg(img: np.ndarray):
+    resize_rate = 0.5
     _img = np.copy(img)
+    _img = cv2.resize(frame, dsize=None, fx=resize_rate, fy=resize_rate)
     _img = remove(_img)
+    _img = cv2.resize(frame, dsize=None, fx=1/resize_rate, fy=1/resize_rate)
     _size = np.count_nonzero(_img != 0)
+    
     # _tmp = PILImage.fromarray(_img)
     # _tmp.show()
     return _size
@@ -243,6 +247,10 @@ class ArrangementArrow():
         # self.__text = "here"
         self.__SMALL = 100000
         self.__MIDDLE = 150000
+        
+    def clean_arrow(self):
+        for k in ["small", "middle", "large"]:
+            self.__arrow[k]["current"] = False
 
     def set_arrow(self, frame: np.ndarray, item: DetectInfo):
         if item.size < self.__SMALL:
