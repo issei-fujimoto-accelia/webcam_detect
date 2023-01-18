@@ -24,7 +24,7 @@ from detect_dert import DetrDetector
 from detect_yolo import YoloDetector
 from detect_info import DetectInfo
 from utils import draw_to_cv2, cal_size, set_arrow, crop, nparr_to_img, cal_size_using_bg, nms
-
+from utils import ArrangementArrow
 
 WIDTH=1280
 HEIGHT=720
@@ -36,6 +36,14 @@ WIDTH=1080
 FPS=1
 WINDOW_SIZE_RATE=1.0
 
+
+## windows settings
+WIDTH=660
+WIDTH=360
+WINDOW_SIZE_RATE=3.0
+FPS=1
+
+
 def a_detect(detector, frame):
     return detector.detect(frame)
     
@@ -45,6 +53,8 @@ def async_run_webcam(cap: cv2.VideoCapture, detector: Detector):
     future = None
     items = []
     draw_cnt = 0
+
+    arrangement = ArrangementArrow(WIDTH, HEIGHT)
     
     while(True):
         ret, frame = cap.read()
@@ -70,7 +80,9 @@ def async_run_webcam(cap: cv2.VideoCapture, detector: Detector):
             q.get()
 
         if len(items) > 1:
-            set_arrow(items)
+            # set_arrow(items)
+            for v in items:
+                arrangement.set_arrow(frame, items)
             
         set_arrow(items)
         for item in items:
